@@ -32,13 +32,13 @@
         on_parent: if self.parent == bl: bl.remove_widget(self)
         content: popupcontent
 
-        GridLayout:
+        FloatLayout:
             id: popupcontent
             rows: 2
 
             ScrollView:
                 size_hint: None, None
-                size: 100, 320
+                size: 100, 300
                 pos_hint: {'center_x': .5, 'center_y': .5}
                 GridLayout:
                     id: mincontainer
@@ -53,7 +53,7 @@
                 anchor_y: 'Bottom'
                 text: 'Set'
                 size_hint: 1,.1
-                size: 100,50
+                pos_hint: {'center_x': .5}
                 on_press: increment.dismiss()
 
 
