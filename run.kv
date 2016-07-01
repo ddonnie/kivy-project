@@ -36,20 +36,18 @@
             id: popupcontent
             rows: 2
 
-            FloatLayout:
-
-                ScrollView:
+            ScrollView:
+                size_hint: None, None
+                size: 100, 320
+                pos_hint: {'center_x': .5, 'center_y': .5}
+                GridLayout:
+                    id: mincontainer
+                    cols: 1
+                    padding: 0
+                    spacing: 0
+                    height: self.minimum_height
+                    do_scroll_x: False
                     size_hint: None, None
-                    size: 100, 320
-                    pos_hint: {'center_x': .5, 'center_y': .5}
-                    GridLayout:
-                        id: mincontainer
-                        cols: 1
-                        padding: 0
-                        spacing: 0
-                        height: self.minimum_height
-                        do_scroll_x: False
-                        size_hint: None, None
 
             Button:
                 anchor_y: 'Bottom'

@@ -1,5 +1,4 @@
-import kivy
-
+#kivy.config = window size
 from kivy.config import Config
 Config.set('graphics','resizable',0)
 Config.set('graphics', 'width', '200')
@@ -13,9 +12,6 @@ from kivy.uix.modalview import ModalView
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.button import Button
 from kivy.uix.label import Label
-
-
-
 
 class Controller(AnchorLayout):
 
