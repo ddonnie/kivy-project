@@ -3,25 +3,40 @@
     popup: increment.__self__
     intervalcontainer: intervalcontainer.__self__
     minutes: minutes.__self__
-    setbutton: setbutton
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'Sailfish.png'
     GridLayout:
         rows: 3
-
-        GridLayout:   #Buttons + and -
-            size_hint: 1,.1
-            cols: 2
-
+        FloatLayout: #Buttons To Remove and To Add Interval
             Button:
-                text: '-'
-                background_color: 2.55, 0, 0, 1
+                background_color: 0,0,0, 0
                 on_release: root.remove_interval()
+                size_hint: None,None
+                size: 48,48
+                pos_hint: {'center_y':.8,'center_x': .2}
+                Image:
+                    source: 'data/icons/ic_remove_circle_outline_white_48dp.png'
+                    size: 48, 48
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
             Button:
-                text: '+'
-                background_color: .27,.94,.32, 1
+                background_color: 0,0,0, 0
                 on_release: increment.open()
+                size_hint: None,None
+                size: 32,32
+                pos_hint: {'center_y':.8,'center_x': .8}
+                Image:
+                    source: 'data/icons/ic_add_circle_outline_white_48dp.png'
+                    size: 48, 48
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
 
         GridLayout: #Interval Container
             id: intervalcontainer
+            pos:
             cols: 1
 
         Button:    #'Set' Button
@@ -30,27 +45,45 @@
 
     Popup:
         id: increment
-
+        separator_color: 0, 0, 0, 0
+        title: 'Set Interval Time'
+        title_align: 'center'
         on_parent: if self.parent == bl: bl.remove_widget(self)
         content: popupcontent
 
         FloatLayout:
             id: popupcontent
-            rows: 2
 
             Carousel:
                 id:minutes
                 loop: True
                 direction: 'bottom'
+                anim_move_duration: 0.1
                 pos_hint: {'center_x': .5, 'center_y': .5}
 
             Button:
-                id: setbutton
-                anchor_y: 'Bottom'
-                text: 'Set'
-                size_hint: 1,.1
-                pos_hint: {'center_x': .5}
-                on_press: root.set_interval()
+                size_hint: None,None
+                size: 24,24
+                pos_hint: {'center_y':.05,'center_x': .8}
+                on_release: root.set_interval()
+                background_color: 0, 0, 0, 0
+                Image:
+                    source: 'data/icons/ic_check_white_48dp.png'
+                    size: 24, 24
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
+
+            Button:
+                size_hint: None,None
+                size: 24,24
+                pos_hint: {'center_y':.05,'center_x': .2}
+                on_release: increment.dismiss()
+                background_color: 0, 0, 0, 0
+                Image:
+                    source: 'data/icons/ic_cancel_white_48dp.png'
+                    size: 24, 24
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
 
 
 

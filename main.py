@@ -1,7 +1,7 @@
 #kivy.config = window size
 from kivy.config import Config
 Config.set('graphics','resizable',0)
-Config.set('graphics', 'width', '200')
+Config.set('graphics', 'width', '224')
 Config.set('graphics', 'height', '400')
 
 from kivy.uix.anchorlayout import AnchorLayout
@@ -35,6 +35,8 @@ class RunApp(App):
 
 if __name__ == '__main__':
     RunApp().run()
+
+
 
 
 
