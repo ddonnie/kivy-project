@@ -4,6 +4,7 @@ Config.set('graphics','resizable',0)
 Config.set('graphics', 'width', '200')
 Config.set('graphics', 'height', '400')
 
+
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.app import App
@@ -12,22 +13,24 @@ from kivy.uix.modalview import ModalView
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.button import Button
 from kivy.uix.label import Label
+from kivy.uix.carousel import Carousel
 
 class Controller(AnchorLayout):
 
 
-    def add_time(self,btn):
-        intervalcontainer = self.ids.intervalcontainer
-        intervalcontainer.add_widget(Label(text=btn.text))
 
     def __init__(self, **kwargs):
         super(Controller, self).__init__(**kwargs)
-        mincontainer = self.ids.mincontainer
+        carousel = self.ids.minutes
         for i in range(0,60):
-            mincontainer.add_widget(ScrollButton(text=str(i),font_size=24,background_color=[0,0,0,.1],on_press=self.add_time))
+            carousel.add_widget(Label(text=str(i),font_name='Roboto',font_size=60))
 
-class ScrollButton(Button):
-    pass
+    def set_min(self):
+        intervalcontainer = self.ids.intervalcontainer
+        intervalcontainer.add_widget(Label(text=str(self.ids.minutes.index)))
+        self.ids.increment.dismiss()
+
+
 
 class RunApp(App):
     def build(self):
@@ -35,6 +38,7 @@ class RunApp(App):
 
 if __name__ == '__main__':
     RunApp().run()
+
 
 
 
