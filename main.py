@@ -20,13 +20,15 @@ class Controller(FloatLayout):
         self.ids.intervalContainer.add_widget(Label(text=str(self.ids.intervalCarouselMinutes.index+1)+' min', size_hint =(1, .4), font_size=32))
         self.ids.increment.dismiss()
 
-
     def remove_interval(self):
         if not self.ids.intervalContainer.children==[]:
             for widget in self.ids.intervalContainer.walk(restrict=True):
                 lastWidget = widget
             self.ids.intervalContainer.remove_widget(lastWidget)
         else: pass
+
+    def reset_slides(self):
+        self.ids.intervalCarouselMinutes.load_slide(self.ids.intervalCarouselMinutes.slides[0])
 
 class RunApp(App):
     def build(self):

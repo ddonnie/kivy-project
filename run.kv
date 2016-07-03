@@ -64,6 +64,7 @@
         title_align: 'center'
         title_size: 24
         on_parent: if self.parent == bl: bl.remove_widget(self)
+        on_open: root.reset_slides()
         content: popupcontent
 
         FloatLayout:
