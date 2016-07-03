@@ -1,32 +1,31 @@
 #kivy.config = window size
 from kivy.config import Config
 Config.set('graphics','resizable',0)
-Config.set('graphics', 'width', '224')
-Config.set('graphics', 'height', '400')
+Config.set('graphics', 'width', '270')
+Config.set('graphics', 'height', '480')
 
-from kivy.uix.anchorlayout import AnchorLayout
+from kivy.uix.floatlayout import FloatLayout
 from kivy.app import App
 from kivy.uix.label import Label
 from kivy.uix.carousel import Carousel
 
-class Controller(AnchorLayout):
+class Controller(FloatLayout):
 
     def __init__(self, **kwargs):
         super(Controller, self).__init__(**kwargs)
-        carousel = self.ids.minutes
         for i in range(1,61):
-            carousel.add_widget(Label(text=str(i),font_size=60))
+            self.ids.intervalCarouselMinutes.add_widget(Label(text=str(i),font_size=120))
 
     def set_interval(self):
-        self.ids.intervalcontainer.add_widget(Label(text=str(self.ids.minutes.index+1)+' min'))
+        self.ids.intervalContainer.add_widget(Label(text=str(self.ids.intervalCarouselMinutes.index+1)+' min', size_hint =(1, .4), font_size=32))
         self.ids.increment.dismiss()
 
 
     def remove_interval(self):
-        if not self.ids.intervalcontainer.children==[]:
-            for widget in self.ids.intervalcontainer.walk(restrict=True):
+        if not self.ids.intervalContainer.children==[]:
+            for widget in self.ids.intervalContainer.walk(restrict=True):
                 lastWidget = widget
-            self.ids.intervalcontainer.remove_widget(lastWidget)
+            self.ids.intervalContainer.remove_widget(lastWidget)
         else: pass
 
 class RunApp(App):
