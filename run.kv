@@ -90,37 +90,48 @@
         Screen:
             name: 'CycleScreen'
             FloatLayout:
+                Label:
+                    text: 'Set Cycle Number'
+                    font_size: 32
+                    pos_hint: {'center_x': .5, 'center_y': .8}
                 Carousel:
                     id:intervalCarouselCycles
                     loop: True
-                    direction: 'bottom'
+                    direction: 'right'
                     anim_move_duration: 0.1
                     pos_hint: {'center_x': .5, 'center_y': .5}
                 Label:
                     text: 'x'
                     font_size: 72
-                    pos_hint: {'center_x': .2, 'center_y': .55}
+                    pos_hint: {'center_x': .25, 'center_y': .5}
 
 ##################################Run Screen####################################################
         Screen:
             name: 'RunScreen'
             FloatLayout:
                 IconButton:
-                    pos_hint: {'center_x': .5, 'center_y': .8}
+                    pos_hint: {'center_x': .5, 'center_y': .9}
                     size_hint: .5,.5
                     size: 72,72
                     on_press: root.start_stop()
                     IconImage:
                         id: play_pause
                         size_hint:None,None
+                        allow_stretch: True
                         size: 72,72
                         source: 'data/icons/ic_play_circle_outline_white_48dp.png'
                 Label:
                     id: stopwatch
                     markup: True
-                    pos_hint: {'center_x': .5, 'center_y': .2}
+                    font_size: 72
+                    pos_hint: {'center_x': .5, 'center_y': .7}
                     text: '00:00.00'
-
+                Label:
+                    id: allwatch
+                    markup: True
+                    font_size: 36
+                    pos_hint: {'center_x': .5, 'center_y': .4}
+                    text: '00:00.00'
 ##################################Navigation Panel####################################################
 
     BoxLayout:
@@ -135,7 +146,7 @@
             IconImage:
                 source: 'data/icons/ic_loop_white_48dp.png'
         IconButtonPanel:
-            on_release: _screen_manager.current = 'RunScreen'
+            on_release: root.run_summary()
             IconImage:
                 source: 'data/icons/ic_directions_run_white_48dp.png'
         IconButtonPanel:
