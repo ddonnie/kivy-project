@@ -1,7 +1,6 @@
 <Controller>:
+    markup: True
     popup: increment.__self__
-    intervalContainer: intervalContainer.__self__
-    intervalCarouselMinutes: intervalCarouselMinutes.__self__
     canvas.before:
         Rectangle:
             pos: self.pos
@@ -51,7 +50,7 @@
                     id: intervalContainer
                     cols: 1
                     padding: 48
-                    spacing: 96
+                    spacing: 48
                     height: self.minimum_height
                     size_hint: 1, None
                     do_scroll_x: False
@@ -87,7 +86,7 @@
                         IconImage:
                             source: 'data/icons/ic_cancel_white_48dp.png'
 
-##################################Cycle Screen#################################################
+##################################Cycle Screen####################################################
         Screen:
             name: 'CycleScreen'
             FloatLayout:
@@ -97,8 +96,32 @@
                     direction: 'bottom'
                     anim_move_duration: 0.1
                     pos_hint: {'center_x': .5, 'center_y': .5}
+                Label:
+                    text: 'x'
+                    font_size: 72
+                    pos_hint: {'center_x': .2, 'center_y': .55}
 
+##################################Run Screen####################################################
+        Screen:
+            name: 'RunScreen'
+            FloatLayout:
+                IconButton:
+                    pos_hint: {'center_x': .5, 'center_y': .8}
+                    size_hint: .5,.5
+                    size: 72,72
+                    on_press: root.start_stop()
+                    IconImage:
+                        id: play_pause
+                        size_hint:None,None
+                        size: 72,72
+                        source: 'data/icons/ic_play_circle_outline_white_48dp.png'
+                Label:
+                    id: stopwatch
+                    markup: True
+                    pos_hint: {'center_x': .5, 'center_y': .2}
+                    text: '00:00.00'
 
+##################################Navigation Panel####################################################
 
     BoxLayout:
         orientation: 'horizontal'
