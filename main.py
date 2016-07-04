@@ -8,11 +8,19 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.app import App
 from kivy.uix.label import Label
 from kivy.uix.carousel import Carousel
+from kivy.lang import Builder
+from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.widget import Widget
+from kivy.uix.button import Button
 
-class Controller(FloatLayout):
+
+class ScreenManagement(ScreenManager):
+    pass
+
+class IntervalScreen(Screen):
 
     def __init__(self, **kwargs):
-        super(Controller, self).__init__(**kwargs)
+        super(IntervalScreen, self).__init__(**kwargs)
         for i in range(1,61):
             self.ids.intervalCarouselMinutes.add_widget(Label(text=str(i),font_size=120))
 
@@ -30,12 +38,21 @@ class Controller(FloatLayout):
     def reset_slides(self):
         self.ids.intervalCarouselMinutes.load_slide(self.ids.intervalCarouselMinutes.slides[0])
 
+presentation = Builder.load_file("run.kv")
+
+class CycleScreen(Screen):
+    pass
+
+class TimerScreen(Screen):
+    pass
+
 class RunApp(App):
     def build(self):
-        return Controller()
+        return presentation
 
 if __name__ == '__main__':
     RunApp().run()
+
 
 
 
