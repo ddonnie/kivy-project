@@ -5,7 +5,7 @@
         Rectangle:
             pos: self.pos
             size: self.size
-            source: 'Sailfish.png'
+            source: 'sailfish_3.png'
     ScreenManager:
         id: _screen_manager
 
@@ -105,6 +105,13 @@
         Screen:
             name: 'RunScreen'
             FloatLayout:
+                Label:
+                    id: global_stopwatch
+                    markup: True
+                    pos_hint: {'center_x': .5, 'center_y': .925}
+                    font_size: 20
+                    text: '00:00:[size=40]00[/size].00'
+
                 IconButton:
                     pos_hint: {'center_x': .5, 'center_y': .8}
                     size_hint: .5,.5
@@ -115,14 +122,36 @@
                         size_hint:None,None
                         size: 72,72
                         source: 'data/icons/ic_play_circle_outline_white_48dp.png'
+
                 Label:
                     id: stopwatch
                     markup: True
-                    pos_hint: {'center_x': .5, 'center_y': .2}
-                    text: '00:00.00'
+                    pos_hint: {'center_x': .5, 'center_y': .675}
+                    font_size: 20
+                    text: '00:00:[size=40]00[/size].00'
+
+                ScrollView: #Interval Container on Run Screen
+                    pos_hint: {'center_x': .5,'center_y':.425}
+                    size_hint: 1, .4
+                    do_scroll_x: False
+                #    canvas.before:
+                #        Color:
+                #            rgb: 0,1,0,1
+                #        Rectangle:
+                #            pos: self.pos
+                #            size: self.size
+                    GridLayout:
+                        id: intervalContainerRun
+                        cols: 1
+                        padding: 20
+                        spacing: 48
+                        height: self.minimum_height
+                        size_hint: 1, None
+                        do_scroll_x: False
+
+
 
 ##################################Navigation Panel####################################################
-
     BoxLayout:
         orientation: 'horizontal'
         size_hint: 1,.15
