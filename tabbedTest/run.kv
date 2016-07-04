@@ -1,0 +1,176 @@
+<Controller>:
+    id: bl
+    tab_pos: 'bottom_mid'
+    do_default_tab: False
+
+    TabbedPanelHeader:
+        id: interval_tab
+        content: interval_tab_content.__self__
+        border: 0, 0, 0, 0
+        text: 'hi'
+
+    TabbedPanelHeader:
+        id: cycle_tab
+        content: cycle_tab_content.__self__
+        border: 0, 0, 0, 0
+        background_down: 'data/icons/ic_remove_circle_outline_white_48dp.png'
+        background_normal:'data/icons/ic_add_circle_outline_white_48dp.png'
+
+    TabbedPanelHeader:
+        id: training_tab
+        border: 0, 0, 0, 0
+        background_down: 'data/icons/ic_remove_circle_outline_white_48dp.png'
+        background_normal:'data/icons/ic_add_circle_outline_white_48dp.png'
+
+    TabbedPanelHeader:
+        id: route_tab
+        border: 0, 0, 0, 0
+        background_down: 'data/icons/ic_remove_circle_outline_white_48dp.png'
+        background_normal:'data/icons/ic_add_circle_outline_white_48dp.png'
+
+
+
+
+############## intervals #############
+    FloatLayout:
+        id: interval_tab_content
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'Sailfish.png'
+
+        FloatLayout: #Buttons To Remove and To Add Interval
+            size_hint: 1,.15
+            pos_hint: {'center_x':.5,'y': .85}
+    #        canvas.before:
+    #            Color:
+    #                rgb: 1,0,0,1
+    #            Rectangle:
+    #                pos: self.pos
+    #                size: self.size
+            IconButton:
+                on_release: root.remove_interval()
+                pos_hint: {'center_y':.5,'center_x': .2}
+                IconImage:
+                    source: 'data/icons/ic_remove_circle_outline_white_48dp.png'
+
+            IconButton:
+                on_release: increment.open()
+                pos_hint: {'center_y':.5,'center_x': .8}
+                IconImage:
+                    source: 'data/icons/ic_add_circle_outline_white_48dp.png'
+                    size: 48, 48
+
+        ScrollView: #Interval Container
+            pos_hint: {'center_x': .5,'center_y':.5}
+            size_hint: 1, .7
+            do_scroll_x: False
+    #        canvas.before:
+    #            Color:
+    #                rgb: 0,1,0,1
+    #            Rectangle:
+    #                pos: self.pos
+    #                size: self.size
+            GridLayout:
+                id: intervalContainer
+                cols: 1
+                padding: 48
+                spacing: 96
+                height: self.minimum_height
+                size_hint: 1, None
+                do_scroll_x: False
+################ setting intervals ###################
+    Popup:
+        id: increment
+        separator_color: 0, 0, 0, 0
+        title: 'Set Interval Time'
+        title_align: 'center'
+        title_size: 24
+        on_parent: if self.parent == bl: bl.remove_widget(self)
+        on_open: root.reset_slides()
+        content: popupcontent
+
+        FloatLayout:
+            id: popupcontent
+            Carousel:
+                id:intervalCarouselMinutes
+                loop: True
+                direction: 'right'
+                anim_move_duration: 0.1
+                pos_hint: {'center_x': .5, 'center_y': .55}
+
+            IconButton:
+                on_release: root.set_interval()
+                pos_hint: {'center_y':.05,'center_x': .8}
+                IconImage:
+                    source: 'data/icons/ic_check_white_48dp.png'
+
+            IconButton:
+                on_release: increment.dismiss()
+                pos_hint: {'center_y':.05,'center_x': .2}
+                IconImage:
+                    source: 'data/icons/ic_cancel_white_48dp.png'
+
+
+
+
+############## cycles #############
+    FloatLayout:
+        id: cycle_tab_content
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'Sailfish.png'
+
+        Carousel:
+            id: cycleCarousel
+            loop: True
+            direction: 'right'
+            anim_move_duration: 0.1
+            pos_hint: {'center_x': .5, 'center_y': .3}
+
+        Label:
+            text: 'tut karoch kratkij \n spisok intervalov budet'
+            font_size: 24
+            size_hint: 1,.3
+            pos_hint: {'center_x':.5,'y': .7}
+
+        Label:
+            text: 'X'
+            font_size: 40
+            size_hint: 1,.3
+            pos_hint: {'center_x':.5,'y': .4}
+
+
+
+
+
+
+
+
+
+
+
+<IconButton@Button>:
+    size_hint: None,None
+    size: 48,48
+    background_color: 0, 0, 0, 0
+
+<IconImage@Image>:
+    size: 48, 48
+    center_x: self.parent.center_x
+    center_y: self.parent.center_y
+
+
+
+
+
+
+
+
+
+
+
+
