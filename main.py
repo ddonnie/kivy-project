@@ -19,10 +19,12 @@ class Controller(FloatLayout):
     timer_started = False
     timer_seconds = 0
     global_timer_seconds = 0
-    timer_stop = 0
+    stop = 0
     curr_interval = 0
     number_of_intervals = 0
     event = 0
+    curr_cycle = 0
+    number_of_cycles = 0
     #Clock.schedule_once(dummy_callback, 0)
     #def dummy_callback(dt):
     #    pass
@@ -32,7 +34,7 @@ class Controller(FloatLayout):
         for i in range(1,61):
             self.ids.intervalCarouselMinutes.add_widget(Label(text=str(i),font_size=120))
         for i in range(1,11):
-            self.ids.intervalCarouselCycles.add_widget(Label(text=str(i),font_size=196))
+            self.ids.cycleCarousel.add_widget(Label(text=str(i),font_size=196))
         #self.ids.intervalContainerRun.add_widget(Label(text='next intervals:', size_hint =(1, .4), font_size=20))
 
         #Clock.schedule_interval(self.update, 0)
@@ -42,8 +44,10 @@ class Controller(FloatLayout):
         self.ids.intervalContainer.add_widget(Label(text=str(minutes), size_hint =(1, .4), font_size=32))
         if minutes < 10:
             self.ids.intervalContainerRun.add_widget(Label(text='00:0'+str(minutes)+':00', size_hint =(1, .4), font_size=20))
+            self.ids.intervalContainerCycle.add_widget(Label(text='00:0'+str(minutes)+':00', size_hint =(1, .4), font_size=20))
         else:
             self.ids.intervalContainerRun.add_widget(Label(text='00:'+str(minutes)+':00', size_hint =(1, .4), font_size=20))
+            self.ids.intervalContainerCycle.add_widget(Label(text='00:'+str(minutes)+':00', size_hint =(1, .4), font_size=20))
         self.ids.increment.dismiss()
 
     def remove_interval(self):
@@ -54,7 +58,14 @@ class Controller(FloatLayout):
             for widget in self.ids.intervalContainerRun.walk(restrict=True):
                 lastWidgetRun = widget
             self.ids.intervalContainerRun.remove_widget(lastWidgetRun)
+            for widget in self.ids.intervalContainerCycle.walk(restrict=True):
+                lastWidgetCycle = widget
+            self.ids.intervalContainerCycle.remove_widget(lastWidgetCycle)
         else: pass
+
+    def set_cycles(self):
+        self.number_of_cycles = self.ids.cycleCarousel.index+1
+        self.ids.cycle.text = ('[size=60]1[/size][size=40]/%d[/size]' % (self.number_of_cycles))
 
     def start_stop(self):
         self.ids.play_pause.source = 'data/icons/ic_play_circle_outline_white_48dp.png' if self.timer_started else 'data/icons/ic_pause_circle_outline_white_48dp.png'
@@ -68,6 +79,7 @@ class Controller(FloatLayout):
                 #intervals are stored as minutes backwards
                     self.event = Clock.schedule_interval(self.update, 0)
                     self.curr_interval = 1
+                    self.curr_cycle = 1
                     self.stop = int(self.ids.intervalContainer.children[self.number_of_intervals - self.curr_interval].text) #*60
 
                     self.timer_seconds = self.stop
@@ -100,7 +112,7 @@ class Controller(FloatLayout):
             elif not self.curr_interval == self.number_of_intervals:
                 self.curr_interval = self.curr_interval +1
 
-                self.timer_stop = self.get_next_interval()
+                self.get_next_interval()
                 #self.timer_seconds = 0
                 self.timer_seconds = self.stop
                 m, s = divmod(self.timer_seconds, 60)
@@ -116,8 +128,33 @@ class Controller(FloatLayout):
                     else:
                         break
                 self.ids.intervalContainerRun.remove_widget(firstWidgetRun)
-            else:
-                self.ids.stopwatch.text = ('[size=20]00:00:[/size][size=40]00[/size][size=20].00[/size]')
+            elif self.curr_cycle < self.number_of_cycles:
+
+
+                self.curr_interval = 1
+                self.stop = int(self.ids.intervalContainer.children[self.number_of_intervals - self.curr_interval].text) #*60
+
+                self.timer_seconds = self.stop
+                m, s = divmod(self.timer_seconds, 60)
+                h, m = divmod(m, 60)
+                self.ids.stopwatch.text = ('[size=20]%02d:%02d:[/size][size=40]%02d[/size][size=20].%02d[/size]' %
+                                    (int(h), int(m), int(s), int(s * 100 % 100)))
+
+                i = 1
+                for child in reversed(self.ids.intervalContainer.children):
+                    if i == 1:
+                        i+=1
+                    else:
+                        minutes = child.text
+                        if int(minutes) < 10:
+                            self.ids.intervalContainerRun.add_widget(Label(text='00:0'+str(minutes)+':00', size_hint =(1, .4), font_size=20))
+                        else:
+                            self.ids.intervalContainerRun.add_widget(Label(text='00:'+str(minutes)+':00', size_hint =(1, .4), font_size=20))
+
+                self.curr_cycle += 1
+                self.ids.cycle.text = ('[size=60]%d[/size][size=40]/%d[/size]' % (self.curr_cycle, self.number_of_cycles))
+
+
 
 
         global_m, global_s = divmod(self.global_timer_seconds, 60)
