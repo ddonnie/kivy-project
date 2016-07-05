@@ -13,6 +13,10 @@ from kivy.core.text import LabelBase
 from kivy.core.window import Window
 from kivy.utils import get_color_from_hex
 import time
+from kivy.core.audio import SoundLoader
+
+shot = SoundLoader.load('data/sound/shot.wav')
+tick = SoundLoader.load('data/sound/tick.wav')
 
 class Controller(FloatLayout):
 
@@ -45,7 +49,9 @@ class Controller(FloatLayout):
     def start_stop(self):
         self.ids.play_pause.source = 'data/icons/ic_play_circle_outline_white_48dp.png' if self.timer_interval else 'data/icons/ic_pause_circle_outline_white_48dp.png'
         self.timer_interval = not self.timer_interval
-        if self.timer_interval: print('Timer Started')
+        if self.timer_interval:
+            print('Timer Started')
+
 
     def run_summary(self):
         self.time_summary = []
@@ -54,16 +60,20 @@ class Controller(FloatLayout):
         for i in range(int(cycle_number)):
             for interval in self.ids.intervalContainer.walk(restrict=True):
                 if not interval == self.ids.intervalContainer:
-                    self.time_summary.append(int(interval.text))
+                    self.time_summary.append(int(interval.text)*60)
                 else: pass
-        self.runsum = int((sum(self.time_summary)))
+        self.runsum = int((sum(self.time_summary))/60)
 
 
 
     def update(self, nap):
+
         if self.timer_interval:
+            if self.timer_started_seconds == 0:
+                shot.play()
             self.timer_started_seconds += nap
             self.whole_time +=nap
+
         m, s = divmod(self.timer_started_seconds, 60)
         self.ids.stopwatch.text = ('%02d:%02d.[size=40]%02d[/size]' %
                                         (int(m), int(s), int(s * 100 % 100)))
@@ -72,10 +82,12 @@ class Controller(FloatLayout):
 
         ######################Array of Interval Checks#############################
         if self.time_summary != []:
-            if int(s) == self.time_summary[0]:
-                self.time_summary.remove(int(s))
+            if int(self.timer_started_seconds) == self.time_summary[0]:
+                self.time_summary.remove(int(self.timer_started_seconds))
                 self.timer_started_seconds = 0
                 print(self.time_summary)
+            elif int(self.timer_started_seconds)+5 == self.time_summary[0]:
+                tick.play()
         else:
             self.ids.play_pause.source = 'data/icons/ic_play_circle_outline_white_48dp.png'
             self.timer_interval = False
