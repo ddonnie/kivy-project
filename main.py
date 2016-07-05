@@ -20,6 +20,7 @@ class Controller(FloatLayout):
     timer_started_seconds = 0
     whole_time = 0
     time_summary = []
+    runsum = 0
 
     def __init__(self, **kwargs):
         super(Controller, self).__init__(**kwargs)
@@ -55,7 +56,8 @@ class Controller(FloatLayout):
                 if not interval == self.ids.intervalContainer:
                     self.time_summary.append(int(interval.text))
                 else: pass
-        print(self.time_summary)
+        self.runsum = int((sum(self.time_summary)))
+
 
 
     def update(self, nap):
@@ -66,8 +68,7 @@ class Controller(FloatLayout):
         self.ids.stopwatch.text = ('%02d:%02d.[size=40]%02d[/size]' %
                                         (int(m), int(s), int(s * 100 % 100)))
         mi,si = divmod(self.whole_time, 60)
-        self.ids.allwatch.text = ('%02d:%02d.[size=40]%02d[/size]' %
-                                        (int(mi), int(si), int(si * 100 % 100)))
+        self.ids.allwatch.text = ('%02d:%02d/%02d:%02d' %(int(mi), int(si),self.runsum,0 ))
 
         ######################Array of Interval Checks#############################
         if self.time_summary != []:
